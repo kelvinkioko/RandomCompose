@@ -3,6 +3,7 @@ package com.graph.randomcompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
@@ -10,6 +11,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,7 +43,6 @@ fun GreetingButton() {
             .height(80.dp)
     ) {
         Greeting(name = "Kelvin ")
-        Greeting(name = "Kioko")
     }
 }
 
@@ -50,7 +51,11 @@ fun Greeting(name: String) {
     Text(
         text = "Hello $name!",
         modifier = Modifier
-            .fillMaxWidth(0.5f),
+            .border(2.dp, Color.Green)
+            .padding(50.dp)
+            .border(2.dp, Color.Red)
+            .padding(50.dp)
+        ,
         style = MaterialTheme.typography.h5,
         fontWeight = FontWeight.SemiBold
     )
