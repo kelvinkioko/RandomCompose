@@ -36,25 +36,36 @@ fun CoreUiScreen() {
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            HorizontalColoredBar(color = Color.Cyan)
-            HorizontalColoredBar(color = Color.Red)
-            HorizontalColoredBar(color = Color.Black)
-            HorizontalColoredBar(color = Color.Blue)
-            HorizontalColoredBar(color = Color.Green)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.Bottom
+            ) {
+                ColoredSquare(color = Color.Cyan)
+                ColoredSquare(color = Color.Red)
+                ColoredSquare(color = Color.Black)
+                ColoredSquare(color = Color.Blue)
+                ColoredSquare(color = Color.Green)
+            }
+            ColoredSquare(color = Color.Cyan)
+            ColoredSquare(color = Color.Red)
+            ColoredSquare(color = Color.Black)
+            ColoredSquare(color = Color.Blue)
+            ColoredSquare(color = Color.Green)
         }
 
     }
 }
 
 @Composable
-fun HorizontalColoredBar(
+fun ColoredSquare(
     color: Color
 ) {
     Surface(
         color = color,
         modifier = Modifier
-            .width(350.dp)
-            .height(60.dp)
+            .width(50.dp)
+            .height(50.dp)
     ) {
         Text(
             text = "",
