@@ -39,7 +39,9 @@ fun NamesScreen() {
 
 @Composable
 fun StateGreetingList() {
-    val greetingListState = remember { mutableStateListOf("Kelvin", "Donna", "Harvey", "Mike", "Jessica") }
+    val greetingListState = remember {
+        mutableStateListOf("Kelvin", "Donna", "Harvey", "Mike", "Jessica")
+    }
     for (name in greetingListState) {
         StateGreetingName(name = name)
     }
