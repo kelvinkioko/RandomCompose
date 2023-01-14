@@ -37,20 +37,24 @@ fun NamesScreen() {
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        StateGreetingList(namesList = greetingListState)
+        StateGreetingList(
+            namesList = greetingListState,
+            buttonClick = { greetingListState.add("Another name") }
+        )
     }
 }
 
 @Composable
-fun StateGreetingList(namesList: SnapshotStateList<String>) {
+fun StateGreetingList(
+    namesList: SnapshotStateList<String>,
+    buttonClick: () -> Unit
+) {
     for (name in namesList) {
         StateGreetingName(name = name)
     }
 
     Button(
-        onClick = {
-            namesList.add("Another name")
-        },
+        onClick = buttonClick,
         modifier = Modifier
             .padding(24.dp)
             .fillMaxWidth()
