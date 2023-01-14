@@ -9,47 +9,55 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-val namesList: ArrayList<String> = arrayListOf("Kelvin", "Donna", "Harvey", "Mike", "Jessica")
-
-class DynamicContentActivity : ComponentActivity() {
+class StateComposeActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
         setContent {
-            GreetingList(names = namesList)
+            NamesScreen()
         }
     }
 }
 
 @Composable
-fun GreetingList(names: List<String>) {
+fun NamesScreen() {
     Column(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        for (name in names) {
-            GreetingName(name = name)
-        }
-
-        Button(
-            onClick = {
-                namesList.add("Another name")
-            },
-            modifier = Modifier
-                .padding(24.dp)
-                .fillMaxWidth()
-        ) {
-            Text(text = "Add new name")
-        }
+        StateGreetingList()
     }
 }
 
 @Composable
-fun GreetingName(name: String) {
+fun StateGreetingList() {
+    val greetingListState = remember { mutableStateListOf("Kelvin", "Donna", "Harvey", "Mike", "Jessica") }
+    for (name in greetingListState) {
+        StateGreetingName(name = name)
+    }
+
+    Button(
+        onClick = {
+            greetingListState.add("Another name")
+        },
+        modifier = Modifier
+            .padding(24.dp)
+            .fillMaxWidth()
+    ) {
+        Text(text = "Add new name")
+    }
+}
+
+@Composable
+fun StateGreetingName(name: String) {
     Text(
         text = "Hello @ $name",
         style = MaterialTheme.typography.h5
@@ -58,6 +66,6 @@ fun GreetingName(name: String) {
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun DynamicContentPreview() {
-    GreetingList(names = namesList)
+fun StateComposePreview() {
+    NamesScreen()
 }
