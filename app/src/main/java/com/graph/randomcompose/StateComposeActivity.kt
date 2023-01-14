@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,27 +29,27 @@ class StateComposeActivity : ComponentActivity() {
 
 @Composable
 fun NamesScreen() {
+    val greetingListState = remember {
+        mutableStateListOf("Kelvin", "Donna", "Harvey", "Mike", "Jessica")
+    }
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        StateGreetingList()
+        StateGreetingList(namesList = greetingListState)
     }
 }
 
 @Composable
-fun StateGreetingList() {
-    val greetingListState = remember {
-        mutableStateListOf("Kelvin", "Donna", "Harvey", "Mike", "Jessica")
-    }
-    for (name in greetingListState) {
+fun StateGreetingList(namesList: SnapshotStateList<String>) {
+    for (name in namesList) {
         StateGreetingName(name = name)
     }
 
     Button(
         onClick = {
-            greetingListState.add("Another name")
+            namesList.add("Another name")
         },
         modifier = Modifier
             .padding(24.dp)
