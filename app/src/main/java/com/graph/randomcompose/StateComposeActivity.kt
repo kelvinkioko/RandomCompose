@@ -9,10 +9,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,8 +18,8 @@ import androidx.compose.ui.unit.dp
 
 class StateComposeActivity : ComponentActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContent {
             NamesScreen()
         }
@@ -34,6 +31,7 @@ fun NamesScreen() {
     val greetingListState = remember {
         mutableStateListOf("Kelvin", "Donna", "Harvey", "Mike", "Jessica")
     }
+    val nameStateContent = remember { mutableStateOf("") }
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween,
@@ -41,7 +39,9 @@ fun NamesScreen() {
     ) {
         StateGreetingList(
             namesList = greetingListState,
-            buttonClick = { greetingListState.add("Another name") }
+            textFieldValue = nameStateContent.value,
+            textFieldUpdate = { nameUpdate -> nameStateContent.value = nameUpdate },
+            buttonClick = { greetingListState.add(nameStateContent.value) }
         )
     }
 }
@@ -49,18 +49,17 @@ fun NamesScreen() {
 @Composable
 fun StateGreetingList(
     namesList: SnapshotStateList<String>,
+    textFieldValue: String,
+    textFieldUpdate: (newName: String) -> Unit,
     buttonClick: () -> Unit
 ) {
     for (name in namesList) {
         StateGreetingName(name = name)
     }
 
-    val nameStateContent = remember { mutableStateOf("") }
     TextField(
-        value = nameStateContent.value,
-        onValueChange = {
-
-        }
+        value = textFieldValue,
+        onValueChange = textFieldUpdate
     )
 
     Button(
