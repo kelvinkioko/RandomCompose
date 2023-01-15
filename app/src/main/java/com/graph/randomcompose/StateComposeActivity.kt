@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
@@ -52,6 +53,8 @@ fun StateGreetingList(
     for (name in namesList) {
         StateGreetingName(name = name)
     }
+
+    TextField(value = "", onValueChange = {  })
 
     Button(
         onClick = buttonClick,
