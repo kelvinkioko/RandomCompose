@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
@@ -54,7 +55,13 @@ fun StateGreetingList(
         StateGreetingName(name = name)
     }
 
-    TextField(value = "", onValueChange = {  })
+    val nameStateContent = remember { mutableStateOf("") }
+    TextField(
+        value = nameStateContent.value,
+        onValueChange = {
+
+        }
+    )
 
     Button(
         onClick = buttonClick,
