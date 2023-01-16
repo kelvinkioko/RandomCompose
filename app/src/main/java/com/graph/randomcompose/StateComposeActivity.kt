@@ -10,6 +10,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,11 +28,11 @@ class StateComposeActivity : ComponentActivity() {
 }
 
 @Composable
-fun NamesScreen() {
+fun NamesScreen(viewModel: StateComposeViewModel = StateComposeViewModel()) {
     val greetingListState = remember {
         mutableStateListOf("Kelvin", "Donna", "Harvey", "Mike", "Jessica")
     }
-    val nameStateContent = remember { mutableStateOf("") }
+    val nameStateContent = viewModel.textFieldState.observeAsState("Hello")
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween,
@@ -40,7 +41,11 @@ fun NamesScreen() {
         StateGreetingList(
             namesList = greetingListState,
             textFieldValue = nameStateContent.value,
-            textFieldUpdate = { nameUpdate -> nameStateContent.value = nameUpdate },
+            textFieldUpdate = { nameUpdate ->
+                println("@@@ $nameUpdate")
+                println("@@@ ${nameStateContent.value}")
+//                viewModel.onNameChangenged(newName = nameUpdate)
+                              },
             buttonClick = { greetingListState.add(nameStateContent.value) }
         )
     }
