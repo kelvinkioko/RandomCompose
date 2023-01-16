@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.graph.randomcompose.R
+import com.graph.randomcompose.ui.theme.LightGreen
 import com.graph.randomcompose.ui.theme.RandomComposeTheme
 
 class ProfileActivity : ComponentActivity() {
@@ -69,7 +70,8 @@ fun ProfilePicture() {
         shape = CircleShape,
         border = BorderStroke(
             width = 2.dp,
-            color = Color.Green
+            color = MaterialTheme.colors.LightGreen
+
         ),
         modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 16.dp),
         elevation = 4.dp
