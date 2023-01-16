@@ -1,7 +1,6 @@
 package com.graph.randomcompose
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -9,13 +8,13 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 class StateComposeActivity : ComponentActivity() {
 
@@ -28,43 +27,31 @@ class StateComposeActivity : ComponentActivity() {
 }
 
 @Composable
-fun NamesScreen(viewModel: StateComposeViewModel = StateComposeViewModel()) {
-    val greetingListState = remember {
-        mutableStateListOf("Kelvin", "Donna", "Harvey", "Mike", "Jessica")
-    }
-    val nameStateContent = viewModel.textFieldState.observeAsState("Hello")
+fun NamesScreen(stateViewModel: StateComposeViewModel = viewModel()) {
+    val anotherStateName = stateViewModel.nameState.observeAsState("")
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         StateGreetingList(
-            namesList = greetingListState,
-            textFieldValue = nameStateContent.value,
-            textFieldUpdate = { nameUpdate ->
-                println("@@@ $nameUpdate")
-                println("@@@ ${nameStateContent.value}")
-//                viewModel.onNameChangenged(newName = nameUpdate)
-                              },
-            buttonClick = { greetingListState.add(nameStateContent.value) }
+            textFieldValue = anotherStateName.value,
+            textFieldUpdate = { nameUpdate -> stateViewModel.onNameChanged(newName = nameUpdate) },
+            buttonClick = {  }
         )
     }
 }
 
 @Composable
 fun StateGreetingList(
-    namesList: SnapshotStateList<String>,
     textFieldValue: String,
     textFieldUpdate: (newName: String) -> Unit,
     buttonClick: () -> Unit
 ) {
-    for (name in namesList) {
-        StateGreetingName(name = name)
-    }
-
     TextField(
         value = textFieldValue,
-        onValueChange = textFieldUpdate
+        onValueChange = textFieldUpdate,
+        isError = true
     )
 
     Button(
