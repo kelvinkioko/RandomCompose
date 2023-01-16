@@ -46,7 +46,10 @@ fun ProfileScreen() {
                 .fillMaxSize()
                 .padding(padding)
         ) {
-            ProfileCard()
+            Column {
+                ProfileCard()
+                ProfileCard()
+            }
         }
     }
 }
@@ -69,7 +72,7 @@ fun ToolBar() {
 fun ProfileCard() {
     Card(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(top = 16.dp, start = 16.dp, end = 16.dp)
             .fillMaxWidth()
             .wrapContentHeight(align = Alignment.Top)
         ,
