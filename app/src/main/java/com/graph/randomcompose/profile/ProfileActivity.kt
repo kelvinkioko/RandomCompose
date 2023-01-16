@@ -1,5 +1,6 @@
 package com.graph.randomcompose.profile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,6 +9,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -35,11 +38,31 @@ class ProfileActivity : ComponentActivity() {
 
 @Composable
 fun ProfileScreen() {
-    Surface(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        ProfileCard()
+    Scaffold(
+        topBar = { ToolBar() }
+    ) { padding ->
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+        ) {
+            ProfileCard()
+        }
     }
+}
+
+@Composable
+fun ToolBar() {
+    TopAppBar(
+        title = { Text(text = "Veterenary Patient profile") },
+        navigationIcon = {
+            Icon(
+                imageVector = Icons.Default.Home,
+                contentDescription = "",
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
+        }
+    )
 }
 
 @Composable
