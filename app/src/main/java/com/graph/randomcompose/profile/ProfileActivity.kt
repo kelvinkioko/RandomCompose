@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -20,7 +21,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.graph.randomcompose.R
 import com.graph.randomcompose.ui.theme.LightGreen
 import com.graph.randomcompose.ui.theme.RandomComposeTheme
 
@@ -47,8 +47,9 @@ fun ProfileScreen() {
                 .padding(padding)
         ) {
             Column {
-                ProfileCard()
-                ProfileCard()
+                for (profile in profileList) {
+                    ProfileCard(profileEntity = profile)
+                }
             }
         }
     }
@@ -69,7 +70,7 @@ fun ToolBar() {
 }
 
 @Composable
-fun ProfileCard() {
+fun ProfileCard(profileEntity: ProfileEntity) {
     Card(
         modifier = Modifier
             .padding(top = 16.dp, start = 16.dp, end = 16.dp)
@@ -84,19 +85,28 @@ fun ProfileCard() {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
-            ProfilePicture()
-            ProfileContent()
+            ProfilePicture(
+                drawableId = profileEntity.drawableID,
+                onlineStatus = profileEntity.status
+            )
+            ProfileContent(
+                userName = profileEntity.name,
+                onlineStatus = profileEntity.status
+            )
         }
     }
 }
 
 @Composable
-fun ProfilePicture() {
+fun ProfilePicture(@DrawableRes drawableId: Int, onlineStatus: Boolean) {
     Card(
         shape = CircleShape,
         border = BorderStroke(
             width = 2.dp,
-            color = MaterialTheme.colors.LightGreen
+            color = if (onlineStatus)
+                MaterialTheme.colors.LightGreen
+            else
+                Color.Red
 
         ),
         modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 16.dp),
@@ -104,7 +114,7 @@ fun ProfilePicture() {
     ) {
         Image(
             painter = painterResource(
-                id = R.drawable.profile_picture
+                id = drawableId
             ),
             contentDescription = "Content description",
             modifier = Modifier.size(72.dp),
@@ -114,7 +124,7 @@ fun ProfilePicture() {
 }
 
 @Composable
-fun ProfileContent() {
+fun ProfileContent(userName: String, onlineStatus: Boolean) {
     Column(
         modifier = Modifier
             .padding(start = 8.dp, top = 8.dp, bottom = 8.dp)
@@ -122,12 +132,12 @@ fun ProfileContent() {
         horizontalAlignment = Alignment.Start
     ) {
         Text(
-            text = "Bruce Doggo",
+            text = userName,
             style = MaterialTheme.typography.h5
         )
         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.disabled) {
             Text(
-                text = "At the vet, hates it",
+                text = if (onlineStatus) "Active now" else "Offline",
                 style = MaterialTheme.typography.body2
             )
         }
