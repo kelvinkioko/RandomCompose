@@ -1,6 +1,5 @@
 package com.graph.randomcompose.profile
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,6 +7,8 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -46,8 +47,8 @@ fun ProfileScreen() {
                 .fillMaxSize()
                 .padding(padding)
         ) {
-            Column {
-                for (profile in profileList) {
+            LazyColumn {
+                items(profileList) { profile ->
                     ProfileCard(profileEntity = profile)
                 }
             }

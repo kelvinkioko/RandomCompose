@@ -12,5 +12,11 @@ data class ProfileEntity(
 val profileList: List<ProfileEntity> = listOf(
     ProfileEntity(name = "Kelvin Kioko", status = true),
     ProfileEntity(name = "Takezo Kensei", status = false),
+    ProfileEntity(name = "Olua Designer", status = true),
+    ProfileEntity(name = "Takezo Kensei", status = false),
+    ProfileEntity(name = "Olua Designer", status = true),
+    ProfileEntity(name = "Takezo Kensei", status = false),
+    ProfileEntity(name = "Olua Designer", status = true),
+    ProfileEntity(name = "Takezo Kensei", status = false),
     ProfileEntity(name = "Olua Designer", status = true)
 )
