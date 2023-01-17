@@ -89,7 +89,7 @@ fun ProfileCard(profileEntity: ProfileEntity) {
             horizontalArrangement = Arrangement.Start
         ) {
             ProfilePicture(
-                drawableId = profileEntity.drawableID,
+                drawableId = profileEntity.profileImage,
                 onlineStatus = profileEntity.status
             )
             ProfileContent(
@@ -101,7 +101,7 @@ fun ProfileCard(profileEntity: ProfileEntity) {
 }
 
 @Composable
-fun ProfilePicture(@DrawableRes drawableId: Int, onlineStatus: Boolean) {
+fun ProfilePicture(drawableId: String, onlineStatus: Boolean) {
     Card(
         shape = CircleShape,
         border = BorderStroke(
