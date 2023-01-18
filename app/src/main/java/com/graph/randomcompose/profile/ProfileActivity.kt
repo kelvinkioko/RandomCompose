@@ -40,6 +40,11 @@ class ProfileActivity : ComponentActivity() {
 }
 
 @Composable
+fun UsersApplication() {
+
+}
+
+@Composable
 fun UsersListScreen() {
     Scaffold(
         topBar = { ToolBar() }
