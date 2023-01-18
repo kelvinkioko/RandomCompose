@@ -69,6 +69,7 @@ fun UsersApplication(userProfiles: List<ProfileEntity> = profileList) {
             ) {
                 println("@@@ ${it.arguments?.getInt("userId")}")
                 UserProfileDetailsScreen(
+                    navController = navController,
                     userID = it.arguments?.getInt("userId")
                 )
             }
@@ -85,7 +86,8 @@ fun UsersListScreen(
         topBar = {
             ToolBar(
                 title = "Users list",
-                icon = Icons.Default.Home
+                icon = Icons.Default.Home,
+                iconClickAction = {}
             )
         }
     ) { padding ->
@@ -109,14 +111,16 @@ fun UsersListScreen(
 }
 
 @Composable
-fun ToolBar(title: String, icon: ImageVector) {
+fun ToolBar(title: String, icon: ImageVector, iconClickAction: () -> Unit) {
     TopAppBar(
         title = { Text(text = title) },
         navigationIcon = {
             Icon(
                 imageVector = icon,
                 contentDescription = "",
-                modifier = Modifier.padding(horizontal = 12.dp)
+                modifier = Modifier
+                    .padding(horizontal = 12.dp)
+                    .clickable(onClick = { iconClickAction.invoke() })
             )
         }
     )
@@ -217,13 +221,19 @@ fun StateComposePreview() {
 }
 
 @Composable
-fun UserProfileDetailsScreen(userID: Int?) {
+fun UserProfileDetailsScreen(
+    navController: NavHostController?,
+    userID: Int?
+) {
     val profileEntity = profileList.find { it.id == userID }
     Scaffold(
         topBar = {
             ToolBar(
                 title = "User details",
-                icon = Icons.Default.ArrowBack
+                icon = Icons.Default.ArrowBack,
+                iconClickAction = {
+                    navController?.navigateUp()
+                }
             )
         }
     ) { padding ->
@@ -259,6 +269,7 @@ fun UserProfileDetailsScreen(userID: Int?) {
 fun UserProfileDetailsPreview() {
     RandomComposeTheme {
         UserProfileDetailsScreen(
+            navController = null,
             userID = 0
         )
     }
