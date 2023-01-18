@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,6 +23,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import coil.transform.CircleCropTransformation
 import com.google.accompanist.coil.rememberCoilPainter
 import com.graph.randomcompose.ui.theme.LightGreen
@@ -33,19 +38,39 @@ class ProfileActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             RandomComposeTheme {
-                UsersListScreen()
+                UsersApplication()
             }
         }
     }
 }
 
 @Composable
-fun UsersApplication() {
-
+fun UsersApplication(userProfiles: List<ProfileEntity> = profileList) {
+    val navController = rememberNavController()
+    NavHost(
+        navController = navController,
+        startDestination = "users_list",
+        builder = {
+            composable(route = "users_list") {
+                UsersListScreen(
+                    navController = navController,
+                    userProfiles = userProfiles
+                )
+            }
+            composable(route = "users_details") {
+                UserProfileDetailsScreen(
+                    profileEntity = userProfiles[0]
+                )
+            }
+        }
+    )
 }
 
 @Composable
-fun UsersListScreen() {
+fun UsersListScreen(
+    navController: NavHostController?,
+    userProfiles: List<ProfileEntity>
+) {
     Scaffold(
         topBar = { ToolBar() }
     ) { padding ->
@@ -55,8 +80,13 @@ fun UsersListScreen() {
                 .padding(padding)
         ) {
             LazyColumn {
-                items(profileList) { profile ->
-                    ProfileCard(profileEntity = profile)
+                items(userProfiles) { profile ->
+                    ProfileCard(
+                        profileEntity = profile,
+                        clickAction = {
+                            navController?.let { it.navigate(route = "users_details") }
+                        }
+                    )
                 }
             }
         }
@@ -78,12 +108,13 @@ fun ToolBar() {
 }
 
 @Composable
-fun ProfileCard(profileEntity: ProfileEntity) {
+fun ProfileCard(profileEntity: ProfileEntity, clickAction: () -> Unit) {
     Card(
         modifier = Modifier
             .padding(top = 16.dp, start = 16.dp, end = 16.dp)
             .fillMaxWidth()
             .wrapContentHeight(align = Alignment.Top)
+            .clickable(onClick = clickAction)
         ,
         elevation = 8.dp,
         backgroundColor = Color.White
@@ -163,12 +194,15 @@ fun ProfileContent(userName: String, onlineStatus: Boolean, alignment: Alignment
 @Composable
 fun StateComposePreview() {
     RandomComposeTheme {
-        UsersListScreen()
+        UsersListScreen(
+            navController = null,
+            userProfiles = profileList
+        )
     }
 }
 
 @Composable
-fun UserProfileDetailsScreen(profileEntity: ProfileEntity = profileList[0]) {
+fun UserProfileDetailsScreen(profileEntity: ProfileEntity?) {
     Scaffold(
         topBar = { ToolBar() }
     ) { padding ->
@@ -182,16 +216,18 @@ fun UserProfileDetailsScreen(profileEntity: ProfileEntity = profileList[0]) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
             ) {
-                ProfilePicture(
-                    drawableId = profileEntity.drawableID,
-                    onlineStatus = profileEntity.status,
-                    imageSize = 240.dp
-                )
-                ProfileContent(
-                    userName = profileEntity.name,
-                    onlineStatus = profileEntity.status,
-                    alignment = Alignment.CenterHorizontally
-                )
+                profileEntity?.let {
+                    ProfilePicture(
+                        drawableId = profileEntity.drawableID,
+                        onlineStatus = profileEntity.status,
+                        imageSize = 240.dp
+                    )
+                    ProfileContent(
+                        userName = profileEntity.name,
+                        onlineStatus = profileEntity.status,
+                        alignment = Alignment.CenterHorizontally
+                    )
+                }
             }
         }
     }
@@ -201,6 +237,6 @@ fun UserProfileDetailsScreen(profileEntity: ProfileEntity = profileList[0]) {
 @Composable
 fun UserProfileDetailsPreview() {
     RandomComposeTheme {
-        UserProfileDetailsScreen()
+        UserProfileDetailsScreen(profileEntity = profileList[0])
     }
 }
