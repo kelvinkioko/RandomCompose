@@ -13,12 +13,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -80,7 +82,12 @@ fun UsersListScreen(
     userProfiles: List<ProfileEntity>
 ) {
     Scaffold(
-        topBar = { ToolBar() }
+        topBar = {
+            ToolBar(
+                title = "Users list",
+                icon = Icons.Default.Home
+            )
+        }
     ) { padding ->
         Surface(
             modifier = Modifier
@@ -102,12 +109,12 @@ fun UsersListScreen(
 }
 
 @Composable
-fun ToolBar() {
+fun ToolBar(title: String, icon: ImageVector) {
     TopAppBar(
-        title = { Text(text = "Veterenary Patient profile") },
+        title = { Text(text = title) },
         navigationIcon = {
             Icon(
-                imageVector = Icons.Default.Home,
+                imageVector = icon,
                 contentDescription = "",
                 modifier = Modifier.padding(horizontal = 12.dp)
             )
@@ -213,7 +220,12 @@ fun StateComposePreview() {
 fun UserProfileDetailsScreen(userID: Int?) {
     val profileEntity = profileList.find { it.id == userID }
     Scaffold(
-        topBar = { ToolBar() }
+        topBar = {
+            ToolBar(
+                title = "User details",
+                icon = Icons.Default.ArrowBack
+            )
+        }
     ) { padding ->
         Surface(
             modifier = Modifier
