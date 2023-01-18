@@ -24,9 +24,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import coil.transform.CircleCropTransformation
 import com.google.accompanist.coil.rememberCoilPainter
 import com.graph.randomcompose.ui.theme.LightGreen
@@ -57,9 +59,15 @@ fun UsersApplication(userProfiles: List<ProfileEntity> = profileList) {
                     userProfiles = userProfiles
                 )
             }
-            composable(route = "users_details") {
+            composable(
+                route = "users_details/{userId}",
+                arguments = listOf(navArgument("userId") {
+                    type = NavType.IntType
+                })
+            ) {
+                println("@@@ ${it.arguments?.getInt("userId")}")
                 UserProfileDetailsScreen(
-                    profileEntity = userProfiles[0]
+                    userID = it.arguments?.getInt("userId")
                 )
             }
         }
@@ -84,7 +92,7 @@ fun UsersListScreen(
                     ProfileCard(
                         profileEntity = profile,
                         clickAction = {
-                            navController?.let { it.navigate(route = "users_details") }
+                            navController?.navigate(route = "users_details/${profile.id}")
                         }
                     )
                 }
@@ -202,7 +210,8 @@ fun StateComposePreview() {
 }
 
 @Composable
-fun UserProfileDetailsScreen(profileEntity: ProfileEntity?) {
+fun UserProfileDetailsScreen(userID: Int?) {
+    val profileEntity = profileList.find { it.id == userID }
     Scaffold(
         topBar = { ToolBar() }
     ) { padding ->
@@ -237,6 +246,8 @@ fun UserProfileDetailsScreen(profileEntity: ProfileEntity?) {
 @Composable
 fun UserProfileDetailsPreview() {
     RandomComposeTheme {
-        UserProfileDetailsScreen(profileEntity = profileList[0])
+        UserProfileDetailsScreen(
+            userID = 0
+        )
     }
 }

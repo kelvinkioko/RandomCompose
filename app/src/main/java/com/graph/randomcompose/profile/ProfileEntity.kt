@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import com.graph.randomcompose.R
 
 data class ProfileEntity(
+    val id: Int,
     val name: String,
     val status: Boolean = false,
     @DrawableRes val drawableID: Int = R.drawable.profile_picture,
@@ -11,13 +12,13 @@ data class ProfileEntity(
 )
 
 val profileList: List<ProfileEntity> = listOf(
-    ProfileEntity(name = "Kelvin Kioko", status = true),
-    ProfileEntity(name = "Takezo Kensei", status = false),
-    ProfileEntity(name = "Olua Designer", status = true),
-    ProfileEntity(name = "Takezo Kensei", status = false),
-    ProfileEntity(name = "Olua Designer", status = true),
-    ProfileEntity(name = "Takezo Kensei", status = false),
-    ProfileEntity(name = "Olua Designer", status = true),
-    ProfileEntity(name = "Takezo Kensei", status = false),
-    ProfileEntity(name = "Olua Designer", status = true)
+    ProfileEntity(id = 0, name = "Kelvin Kioko", status = true),
+    ProfileEntity(id = 1, name = "Takezo Kensei", status = false),
+    ProfileEntity(id = 2, name = "Olua Designer", status = true),
+    ProfileEntity(id = 3, name = "Takezo Kensei", status = false),
+    ProfileEntity(id = 4, name = "Olua Designer", status = true),
+    ProfileEntity(id = 5, name = "Takezo Kensei", status = false),
+    ProfileEntity(id = 6, name = "Olua Designer", status = true),
+    ProfileEntity(id = 7, name = "Takezo Kensei", status = false),
+    ProfileEntity(id = 8, name = "Olua Designer", status = true)
 )
