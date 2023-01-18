@@ -19,8 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.transform.CircleCropTransformation
 import com.google.accompanist.coil.rememberCoilPainter
@@ -33,14 +33,14 @@ class ProfileActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             RandomComposeTheme {
-                ProfileScreen()
+                UsersListScreen()
             }
         }
     }
 }
 
 @Composable
-fun ProfileScreen() {
+fun UsersListScreen() {
     Scaffold(
         topBar = { ToolBar() }
     ) { padding ->
@@ -89,7 +89,7 @@ fun ProfileCard(profileEntity: ProfileEntity) {
             horizontalArrangement = Arrangement.Start
         ) {
             ProfilePicture(
-                drawableId = profileEntity.profileImage,
+                drawableId = profileEntity.drawableID,
                 onlineStatus = profileEntity.status
             )
             ProfileContent(
@@ -101,7 +101,7 @@ fun ProfileCard(profileEntity: ProfileEntity) {
 }
 
 @Composable
-fun ProfilePicture(drawableId: String, onlineStatus: Boolean) {
+fun ProfilePicture(@DrawableRes drawableId: Int, onlineStatus: Boolean, imageSize: Dp = 72.dp) {
     Card(
         shape = CircleShape,
         border = BorderStroke(
@@ -123,24 +123,28 @@ fun ProfilePicture(drawableId: String, onlineStatus: Boolean) {
                 }
             ),
             contentDescription = "",
-            modifier = Modifier.size(72.dp),
+            modifier = Modifier.size(imageSize),
             contentScale = ContentScale.Crop
         )
     }
 }
 
 @Composable
-fun ProfileContent(userName: String, onlineStatus: Boolean) {
+fun ProfileContent(userName: String, onlineStatus: Boolean, alignment: Alignment.Horizontal = Alignment.Start) {
     Column(
         modifier = Modifier
-            .padding(start = 8.dp, top = 8.dp, bottom = 8.dp)
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.Start
+            .padding(start = 8.dp, top = 8.dp, bottom = 8.dp),
+        horizontalAlignment = alignment
     ) {
-        Text(
-            text = userName,
-            style = MaterialTheme.typography.h5
-        )
+        CompositionLocalProvider(
+            LocalContentAlpha provides (if (onlineStatus) 1f else ContentAlpha.medium)
+        ) {
+            Text(
+                text = userName,
+                style = MaterialTheme.typography.h5
+            )
+        }
+
         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.disabled) {
             Text(
                 text = if (onlineStatus) "Active now" else "Offline",
@@ -154,6 +158,44 @@ fun ProfileContent(userName: String, onlineStatus: Boolean) {
 @Composable
 fun StateComposePreview() {
     RandomComposeTheme {
-        ProfileScreen()
+        UsersListScreen()
+    }
+}
+
+@Composable
+fun UserProfileDetailsScreen(profileEntity: ProfileEntity = profileList[0]) {
+    Scaffold(
+        topBar = { ToolBar() }
+    ) { padding ->
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top
+            ) {
+                ProfilePicture(
+                    drawableId = profileEntity.drawableID,
+                    onlineStatus = profileEntity.status,
+                    imageSize = 240.dp
+                )
+                ProfileContent(
+                    userName = profileEntity.name,
+                    onlineStatus = profileEntity.status,
+                    alignment = Alignment.CenterHorizontally
+                )
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun UserProfileDetailsPreview() {
+    RandomComposeTheme {
+        UserProfileDetailsScreen()
     }
 }
