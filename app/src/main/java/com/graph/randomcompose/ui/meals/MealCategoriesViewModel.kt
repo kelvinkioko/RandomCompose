@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import com.graph.randomcompose.model.MealsRepository
 import com.graph.randomcompose.model.response.Category
 import com.graph.randomcompose.model.response.MealCategories
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class MealCategoriesViewModel(
     private val repository: MealsRepository = MealsRepository()
@@ -11,20 +13,17 @@ class MealCategoriesViewModel(
 
     private lateinit var mealCategories: MealCategories
 
-    fun getMeals(categories: (List<Category>) -> Unit) {
-        if (::mealCategories.isInitialized && mealCategories.categories.isNotEmpty()) {
-            categories(mealCategories.categories)
+    suspend fun getMeals(): List<Category> {
+        return if (::mealCategories.isInitialized && mealCategories.categories.isNotEmpty()) {
+            mealCategories.categories
         } else {
-            repository.getMeals(
-                successCallBack = { mealCategories ->
-                    this.mealCategories = mealCategories ?: MealCategories()
-                    categories(this.mealCategories.categories)
-                },
-                failureCallBack = { errorMessage ->
-                    println(errorMessage)
-                }
-            )
-
+            withContext(Dispatchers.IO) {
+                val meals = repository.getMeals()
+                mealCategories = meals
+            }
+            mealCategories.categories
         }
     }
 }
+
+//"Meals API failes with ${t.message ?: t.localizedMessage ?: "No error"}"
