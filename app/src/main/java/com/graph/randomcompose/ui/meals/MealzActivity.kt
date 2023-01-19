@@ -23,6 +23,8 @@ class MealzActivity : ComponentActivity() {
 @Composable
 private fun MealsCategoriesScreen() {
     val viewModel: MealCategoriesViewModel = viewModel()
+
+    val meals = viewModel.getMeals()
 }
 
 @Preview(showBackground = true, showSystemUi = true)
