@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -31,8 +32,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import coil.transform.CircleCropTransformation
-import com.google.accompanist.coil.rememberCoilPainter
 import com.graph.randomcompose.ui.theme.LightGreen
 import com.graph.randomcompose.ui.theme.RandomComposeTheme
 
@@ -171,12 +170,7 @@ fun ProfilePicture(@DrawableRes drawableId: Int, onlineStatus: Boolean, imageSiz
         elevation = 4.dp
     ) {
         Image(
-            painter = rememberCoilPainter(
-                request = drawableId,
-                requestBuilder = {
-                    transformations(CircleCropTransformation())
-                }
-            ),
+            painter = painterResource(id = drawableId),
             contentDescription = "",
             modifier = Modifier.size(imageSize),
             contentScale = ContentScale.Crop
