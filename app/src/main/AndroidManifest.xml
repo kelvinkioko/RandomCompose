@@ -15,7 +15,7 @@
         android:theme="@style/Theme.RandomCompose"
         tools:targetApi="31">
         <activity
-            android:name=".ui.meals.MealzActivity"
+            android:name=".nestedscroll.NestedScroll"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.RandomCompose">
