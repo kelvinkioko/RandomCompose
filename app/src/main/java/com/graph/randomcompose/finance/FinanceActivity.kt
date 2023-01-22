@@ -20,7 +20,7 @@ class FinanceActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    FinanceHomeScreen()
+                    FinanceSplashScreen()
                 }
             }
         }
