@@ -26,16 +26,3 @@ class FinanceActivity : ComponentActivity() {
         }
     }
 }
-
-@Composable
-private fun FinanceHomeScreen() {
-
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-private fun FinanceHomeScreenPreview() {
-    RandomComposeTheme {
-        FinanceHomeScreen()
-    }
-}
