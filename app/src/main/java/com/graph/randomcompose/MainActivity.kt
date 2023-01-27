@@ -1,5 +1,6 @@
 package com.graph.randomcompose
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,10 +16,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.graph.randomcompose.finance.FinanceActivity
 import com.graph.randomcompose.ui.theme.RandomComposeTheme
+import kotlinx.coroutines.*
 
 class MainActivity : ComponentActivity() {
+
+    var isFirstRun: Boolean = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        println("@@@ onCreate Called")
         super.onCreate(savedInstanceState)
         setContent {
             RandomComposeTheme {
@@ -31,6 +38,43 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        println("@@@ onStart Called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        println("@@@ onPause Called")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        println("@@@ onRestart Called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("@@@ onResume Called")
+
+        if (isFirstRun) {
+            isFirstRun = false
+            val intent = Intent(this@MainActivity, FinanceActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        println("@@@ onStop Called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        println("@@@ onDestroy Called")
     }
 }
 
