@@ -16,6 +16,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.graph.randomcompose.download_manager.Downloader
+import com.graph.randomcompose.download_manager.DownloaderImpl
 import com.graph.randomcompose.finance.FinanceActivity
 import com.graph.randomcompose.ui.theme.RandomComposeTheme
 import kotlinx.coroutines.*
@@ -26,6 +28,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         println("@@@ onCreate Called")
+        val downloader = DownloaderImpl(this)
+        downloader.downloadFile("https://pl-coding.com/wp-content/uploads/2022/04/pic-squared.jpg")
         super.onCreate(savedInstanceState)
         setContent {
             RandomComposeTheme {

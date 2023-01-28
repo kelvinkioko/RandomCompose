@@ -35,6 +35,14 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.RandomCompose"/>
+
+        <receiver
+            android:name=".download_manager.DownloadCompletedReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
