@@ -18,14 +18,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.graph.randomcompose.hilt.database.DatabaseAdapter
+import com.graph.randomcompose.hilt.database.DatabaseService
 import com.graph.randomcompose.ui.theme.RandomComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HiltActivity : ComponentActivity() {
 
+    @Inject lateinit var databaseAdapter: DatabaseAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        println("@@@ MainActivity: $databaseAdapter")
+        databaseAdapter.log(message = "This was called from HiltActivity")
         setContent {
             RandomComposeTheme {
                 // A surface container using the 'background' color from the theme
@@ -37,6 +45,11 @@ class HiltActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    @Inject
+    fun directToDatabase(databaseService: DatabaseService) {
+        databaseService.log("Injection from method")
     }
 }
 
