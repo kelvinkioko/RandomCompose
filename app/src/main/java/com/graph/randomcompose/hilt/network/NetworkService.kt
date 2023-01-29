@@ -1,11 +1,12 @@
 package com.graph.randomcompose.hilt.network
 
+// Uses builder pattern
 class NetworkService(builder: Builder) {
 
-    var protocol: String? = null
-    var host: String? = null
-    var path: String? = null
-    var interceptor: Interceptor? = null
+    private var protocol: String? = null
+    private var host: String? = null
+    private var path: String? = null
+    private var interceptor: Interceptor? = null
 
     init {
         this.protocol = builder.protocol

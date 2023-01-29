@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.graph.randomcompose.hilt.database.DatabaseAdapter
 import com.graph.randomcompose.hilt.database.DatabaseService
 import com.graph.randomcompose.hilt.network.NetworkAdapter
+import com.graph.randomcompose.hilt.network.NetworkService
 import com.graph.randomcompose.ui.theme.RandomComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -29,7 +30,8 @@ import javax.inject.Inject
 class HiltActivity : ComponentActivity() {
 
     @Inject lateinit var databaseAdapter: DatabaseAdapter
-    @Inject lateinit var networkAdapter: NetworkAdapter
+//    @Inject lateinit var networkAdapter: NetworkAdapter
+    @Inject lateinit var networkService: NetworkService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +39,11 @@ class HiltActivity : ComponentActivity() {
         println("@@@ MainActivity: $databaseAdapter")
         databaseAdapter.log(message = "This was called from HiltActivity")
 
-        println("@@@ MainActivity Network Adapter: $networkAdapter")
-        networkAdapter.log(message = "Network Adapter logged")
+//        println("@@@ MainActivity Network Adapter: $networkAdapter")
+//        networkAdapter.log(message = "Network Adapter logged")
+
+        println("@@@ MainActivity Network Service: $networkService")
+        networkService.performNetworkCall()
         setContent {
             RandomComposeTheme {
                 // A surface container using the 'background' color from the theme
