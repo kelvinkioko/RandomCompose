@@ -35,6 +35,10 @@ class HiltActivity : ComponentActivity() {
 //    @Inject lateinit var networkAdapter: NetworkAdapter
     @CallInterceptor
     @Inject lateinit var callNetworkService: NetworkService
+    @CallInterceptor
+    @Inject lateinit var callNetworkService1: NetworkService
+    @CallInterceptor
+    @Inject lateinit var callNetworkService2: NetworkService
 
     @ResponseInterceptor
     @Inject lateinit var responseNetworkService: NetworkService
@@ -42,17 +46,19 @@ class HiltActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        println("@@@ MainActivity: $databaseAdapter")
-        databaseAdapter.log(message = "This was called from HiltActivity")
+//        println("@@@ MainActivity: $databaseAdapter")
+//        databaseAdapter.log(message = "This was called from HiltActivity")
 
 //        println("@@@ MainActivity Network Adapter: $networkAdapter")
 //        networkAdapter.log(message = "Network Adapter logged")
 
         println("@@@ MainActivity Call Network Service: $callNetworkService")
         callNetworkService.performNetworkCall()
+        println("@@@ MainActivity Call Network Service: $callNetworkService1")
+        println("@@@ MainActivity Call Network Service: $callNetworkService2")
 
-        println("@@@ MainActivity Response Network Service: $responseNetworkService")
-        responseNetworkService.performNetworkCall()
+//        println("@@@ MainActivity Response Network Service: $responseNetworkService")
+//        responseNetworkService.performNetworkCall()
         setContent {
             RandomComposeTheme {
                 // A surface container using the 'background' color from the theme
